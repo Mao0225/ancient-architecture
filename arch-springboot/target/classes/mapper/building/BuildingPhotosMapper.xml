@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.boot.building.mapper.BuildingPhotosMapper">
+
+    <!-- 获取建筑物照片分页列表 -->
+    <select id="getBuildingPhotosPage" resultType="com.youlai.boot.building.model.vo.BuildingPhotosVO">
+        SELECT
+                p.id,
+                building_id,
+                building_part,
+                photo_url,
+                p.create_time,
+                p.description,
+                p.status,
+                building_list.building_name AS buildingName
+        FROM
+            building_photos p
+            LEFT JOIN building_list ON p.building_id = building_list.id
+
+        <where>
+        p.status = 1
+        <if test="queryParams.buildingId != null">
+            AND p.building_id = #{queryParams.buildingId}
+        </if>
+        </where>
+    </select>
+
+</mapper>

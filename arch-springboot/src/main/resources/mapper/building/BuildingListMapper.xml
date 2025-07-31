@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.boot.building.mapper.BuildingListMapper">
+
+    <!-- 获取古建筑列表分页列表 -->
+    <select id="getBuildingListPage" resultType="com.youlai.boot.building.model.vo.BuildingListVO">
+        SELECT
+                id,
+                building_name,
+                building_description,
+                create_time
+        FROM
+            building_list
+        <where>
+            status = 1
+            <if test="queryParams.buildingName != null and queryParams.buildingName != ''">
+                AND building_name LIKE CONCAT('%', #{queryParams.buildingName}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="listBuildingOptions" resultType="com.youlai.boot.building.model.vo.BuildingListOptionVO">
+        SELECT
+            id,
+            building_name
+        FROM
+            building_list
+        WHERE
+            status = 1
+    </select>
+
+</mapper>

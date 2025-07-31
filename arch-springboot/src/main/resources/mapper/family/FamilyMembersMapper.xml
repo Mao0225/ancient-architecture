@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.youlai.boot.family.mapper.FamilyMembersMapper">
+
+    <!-- 获取家庭成员信息分页列表 -->
+    <select id="getFamilyMembersPage" resultType="com.youlai.boot.family.model.vo.FamilyMembersVO">
+        SELECT
+        f.id,
+        f.name,
+        f.gender,
+        f.birth_date,
+        f.relationship,
+        f.phone,
+        f.email,
+        f.username,
+        f.password,
+        f.status,
+        f.user_id,  <!-- 添加这个字段，用于关联 -->
+        s.nickname AS user_nickname
+        FROM
+        family_members f
+        LEFT JOIN sys_user s ON f.user_id = s.id
+        <where>
+            <if test="queryParams.userId != null and queryParams.userId != ''">
+                f.user_id = #{queryParams.userId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
